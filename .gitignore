@@ -1,0 +1,22 @@
+# === Carpetas que Unity regenera automáticamente ===
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Ll]ogs/
+MemoryCaptures/
+sysinfo.txt
+
+# === Archivos generados por IDEs como VS o Rider ===
+*.csproj
+*.sln
+*.suo
+*.user
+*.userprefs
+*.unityproj
+
+# === Otros innecesarios ===
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
