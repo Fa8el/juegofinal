@@ -1,13 +1,9 @@
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Personaje : MonoBehaviour
 {
-    
-}
-/*{
     private int movimientoHorizontal = 0;
     private int movimientoVertical = 0;
     private Vector2 mov = Vector2.zero;
@@ -19,7 +15,7 @@ public class Personaje : MonoBehaviour
     private Rigidbody2D rb;
     private Animator animator;
     private bool giroIzq = false;
-    private bool recibiendoDanio;
+    private bool recibiendoDanio = false;
 
     void Start()
     {
@@ -34,13 +30,11 @@ public class Personaje : MonoBehaviour
         EnY();
         Sprint();
 
-        animator.SetFloat("xVelocity", Mathf.Abs(rb.velocity.x) > 0 || Mathf.Abs(rb.velocity.y) > 0 ? 1 : 0);
+        // Activar animación de movimiento si hay velocidad en cualquier dirección
+        animator.SetFloat("xVelocity", rb.velocity.sqrMagnitude > 0 ? 1 : 0);
 
         Ataque();
         FlipSprite();
-        //animator.SetBool("recibedanio", true);
-
-
     }
 
     void FixedUpdate()
@@ -51,16 +45,14 @@ public class Personaje : MonoBehaviour
 
     private void EnX()
     {
-        if (Input.GetKey(KeyCode.D)) movimientoHorizontal = 1;
-        else if (Input.GetKey(KeyCode.A)) movimientoHorizontal = -1;
-        else movimientoHorizontal = 0;
+        movimientoHorizontal = Input.GetKey(KeyCode.D) ? 1 :
+                               Input.GetKey(KeyCode.A) ? -1 : 0;
     }
 
     private void EnY()
     {
-        if (Input.GetKey(KeyCode.W)) movimientoVertical = 1;
-        else if (Input.GetKey(KeyCode.S)) movimientoVertical = -1;
-        else movimientoVertical = 0;
+        movimientoVertical = Input.GetKey(KeyCode.W) ? 1 :
+                             Input.GetKey(KeyCode.S) ? -1 : 0;
     }
 
     private void Sprint()
@@ -70,22 +62,15 @@ public class Personaje : MonoBehaviour
 
     private void Ataque()
     {
-        if (Input.GetKey(KeyCode.K))
+        if (Input.GetKeyDown(KeyCode.K))
             animator.SetTrigger("attack");
     }
 
     private void FlipSprite()
     {
-        if (rb.velocity.x < 0 && !giroIzq)
+        if (rb.velocity.x < 0 && !giroIzq || rb.velocity.x > 0 && giroIzq)
         {
-            giroIzq = true;
-            Vector3 ls = transform.localScale;
-            ls.x *= -1;
-            transform.localScale = ls;
-        }
-        else if (rb.velocity.x > 0 && giroIzq)
-        {
-            giroIzq = false;
+            giroIzq = !giroIzq;
             Vector3 ls = transform.localScale;
             ls.x *= -1;
             transform.localScale = ls;
@@ -100,12 +85,10 @@ public class Personaje : MonoBehaviour
             Debug.Log("Daño activado");
 
             Vector2 rebote = new Vector2(transform.position.x - direccion.x, 1).normalized;
-            rb.AddForce(rebote * 10f, ForceMode2D.Impulse); // Rebote más fuerte
+            rb.AddForce(rebote * 10f, ForceMode2D.Impulse);
 
-            //animator.SetTrigger("recibedanio");
-            animator.SetBool("recibedanio", true); 
-
-            Invoke("desactivardanio", 0.3f);
+            animator.SetBool("recibedanio", true);
+            Invoke(nameof(desactivardanio), 0.3f);
         }
     }
 
@@ -115,7 +98,8 @@ public class Personaje : MonoBehaviour
         animator.SetBool("recibedanio", false);
         Debug.Log("Daño desactivado");
     }
-}*/
+}
+
 
 
 

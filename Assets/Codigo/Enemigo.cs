@@ -1,16 +1,9 @@
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemigo : MonoBehaviour
 {
-    
-}
-/*
-{
-
-    /*
     public Transform player;
     public float detectionRadius = 5.0f;
     public float speed = 2.0f;
@@ -25,12 +18,12 @@ public class Enemigo : MonoBehaviour
 
     void Update()
     {
-        float distanciaAlPlayer = Vector2.Distance(transform.position, player.position);
+        float distancia = Vector2.Distance(transform.position, player.position);
 
-        if (distanciaAlPlayer < detectionRadius)
+        if (distancia < detectionRadius)
         {
             Vector2 direccion = (player.position - transform.position).normalized;
-            movimiento = new Vector2(direccion.x, 0); // Solo eje X
+            movimiento = new Vector2(direccion.x, 0); // Movimiento solo en X
         }
         else
         {
@@ -45,10 +38,9 @@ public class Enemigo : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Colisión con: " + collision.gameObject.name);
-
         if (collision.gameObject.CompareTag("Player"))
         {
+            Debug.Log("Colisión con: " + collision.gameObject.name);
             Vector2 direccionDanio = new Vector2(transform.position.x, 0);
             collision.gameObject.GetComponent<Personaje>().recibeDanio(direccionDanio, 1);
         }
@@ -59,8 +51,4 @@ public class Enemigo : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, detectionRadius);
     }
-    
-} */
-
-
-
+}
