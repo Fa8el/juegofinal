@@ -38,10 +38,14 @@ public class Personaje : MonoBehaviour
     }
 
     void FixedUpdate()
+{
+    if (!recibiendoDanio)
     {
         mov = new Vector2(movimientoHorizontal, movimientoVertical).normalized;
         rb.velocity = mov * speedActual;
     }
+}
+
 
     private void EnX()
     {
@@ -78,24 +82,32 @@ public class Personaje : MonoBehaviour
     }
 
     public void recibeDanio(Vector2 direccion, int cantDanio)
+{
+    Debug.Log("Método recibeDanio() fue llamado con dirección: " + direccion);
+
+    if (!recibiendoDanio)
     {
-        if (!recibiendoDanio)
-        {
-            recibiendoDanio = true;
-            Debug.Log("Daño activado");
+        recibiendoDanio = true;
 
-            Vector2 rebote = new Vector2(transform.position.x - direccion.x, 1).normalized;
-            rb.AddForce(rebote * 10f, ForceMode2D.Impulse);
+        Vector2 rebote = ((Vector2)transform.position - direccion).normalized;
 
-            animator.SetBool("recibedanio", true);
-            Invoke(nameof(desactivardanio), 0.3f);
-        }
+        Debug.Log("Vector de rebote: " + rebote);
+        Debug.DrawRay(transform.position, rebote * 2, Color.red, 1f);
+
+        rb.velocity = Vector2.zero;
+        rb.AddForce(rebote * 10f, ForceMode2D.Impulse);
+
+        animator.SetTrigger("recibedanio");
+
+        Invoke(nameof(desactivardanio), 0.3f);
     }
+}
+
 
     private void desactivardanio()
     {
         recibiendoDanio = false;
-        animator.SetBool("recibedanio", false);
+        //animator.SetBool("recibedanio", false);
         Debug.Log("Daño desactivado");
     }
 }

@@ -41,8 +41,8 @@ public class Enemigo : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             Debug.Log("Colisión con: " + collision.gameObject.name);
-            Vector2 direccionDanio = new Vector2(transform.position.x, 0);
-            collision.gameObject.GetComponent<Personaje>().recibeDanio(direccionDanio, 1);
+            Vector2 direccionDanio = collision.transform.position;
+            collision.gameObject.GetComponent<Personaje>().recibeDanio(transform.position, 1);
         }
     }
 
